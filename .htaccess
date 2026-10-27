@@ -1,11 +1,11 @@
 # Lachgas Dienst Amsterdam — static site
 RewriteEngine On
 
-# Canonical host: www -> non-www, http -> https
-RewriteCond %{HTTP_HOST} ^www\.lachgasdienstamsterdam\.nl$ [NC]
-RewriteRule ^(.*)$ https://lachgasdienstamsterdam.nl/$1 [L,R=301]
+# Canonical host: non-www -> www, http -> https
+RewriteCond %{HTTP_HOST} ^lachgasdienstamsterdam\.nl$ [NC]
+RewriteRule ^(.*)$ https://www.lachgasdienstamsterdam.nl/$1 [L,R=301]
 RewriteCond %{HTTPS} off
-RewriteRule ^(.*)$ https://lachgasdienstamsterdam.nl/$1 [L,R=301]
+RewriteRule ^(.*)$ https://www.lachgasdienstamsterdam.nl/$1 [L,R=301]
 
 # Trailing slash for directory URLs
 RewriteCond %{REQUEST_FILENAME} -d

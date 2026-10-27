@@ -13,7 +13,8 @@ const CSS_V = '1';
 const JS_V = '2';
 
 const SITE = {
-  url: 'https://lachgasdienstamsterdam.nl',
+  // Canonical host is www: Vercel serves production on www and 308-redirects the apex there.
+  url: 'https://www.lachgasdienstamsterdam.nl',
   name: 'Lachgas Dienst Amsterdam',
   alt: 'Lachgasdienst Amsterdam',
   tagline: 'Lachgas bezorgen in Amsterdam · 24/7 · binnen 20-30 min',
@@ -1055,11 +1056,11 @@ writeFile('llms.txt', `# ${SITE.name}
 writeFile('.htaccess', `# ${SITE.name} — static site
 RewriteEngine On
 
-# Canonical host: www -> non-www, http -> https
-RewriteCond %{HTTP_HOST} ^www\\.lachgasdienstamsterdam\\.nl$ [NC]
-RewriteRule ^(.*)$ https://lachgasdienstamsterdam.nl/$1 [L,R=301]
+# Canonical host: non-www -> www, http -> https
+RewriteCond %{HTTP_HOST} ^lachgasdienstamsterdam\\.nl$ [NC]
+RewriteRule ^(.*)$ https://www.lachgasdienstamsterdam.nl/$1 [L,R=301]
 RewriteCond %{HTTPS} off
-RewriteRule ^(.*)$ https://lachgasdienstamsterdam.nl/$1 [L,R=301]
+RewriteRule ^(.*)$ https://www.lachgasdienstamsterdam.nl/$1 [L,R=301]
 
 # Trailing slash for directory URLs
 RewriteCond %{REQUEST_FILENAME} -d

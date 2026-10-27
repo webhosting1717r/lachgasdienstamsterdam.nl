@@ -38,7 +38,7 @@ node _build/serve.js . 8792
 - **GitHub Pages**: branch `main`, map `/` (root). `CNAME` staat klaar; Jekyll negeert `_build` automatisch.
 - **Apache-hosting**: upload de hele map inclusief `.htaccess`.
 
-Zet het domein op **non-www** (`https://lachgasdienstamsterdam.nl`); dat is de canonical in alle pagina's.
+Het canonical-domein is **www** (`https://www.lachgasdienstamsterdam.nl`); de apex wordt doorgestuurd naar www (Vercel-instelling, `vercel.json` en `.htaccess`). Dien in Google Search Console `https://www.lachgasdienstamsterdam.nl/sitemap.xml` in.
 
 ## Nog te doen voor livegang
 

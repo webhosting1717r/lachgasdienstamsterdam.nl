@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /_build/
 
-Sitemap: https://lachgasdienstamsterdam.nl/sitemap.xml
+Sitemap: https://www.lachgasdienstamsterdam.nl/sitemap.xml

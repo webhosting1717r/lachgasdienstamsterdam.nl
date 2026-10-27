@@ -4,8 +4,8 @@
   "redirects": [
     {
       "source": "/:path*",
-      "has": [{ "type": "host", "value": "www.lachgasdienstamsterdam.nl" }],
-      "destination": "https://lachgasdienstamsterdam.nl/:path*",
+      "has": [{ "type": "host", "value": "lachgasdienstamsterdam.nl" }],
+      "destination": "https://www.lachgasdienstamsterdam.nl/:path*",
       "permanent": true
     }
   ],
