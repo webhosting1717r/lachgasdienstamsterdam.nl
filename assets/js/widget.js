@@ -1,8 +1,8 @@
 /* Lachgas Dienst Amsterdam — shared behaviour: floating WhatsApp/call widget,
    mobile nav toggle, header elevation, deferred font swap, contact form. */
 (function () {
-  var WHATSAPP_NUMBER = '16474935191';
-  var PHONE_NUMBER = '+31684695184';
+  var WHATSAPP_NUMBER = '3197010270187';
+  var PHONE_NUMBER = '+31852128051';
   var WHATSAPP_TEXT = encodeURIComponent('Hoi, ik wil graag lachgas bestellen in Amsterdam.');
   var SVG_NS = 'http://www.w3.org/2000/svg';
 
