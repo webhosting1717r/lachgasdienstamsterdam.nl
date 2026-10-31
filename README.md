@@ -43,4 +43,4 @@ Het canonical-domein is **www** (`https://www.lachgasdienstamsterdam.nl`); de ap
 ## Nog te doen voor livegang
 
 - Vervang `your-form-id` in `_build/build.js` (contactformulier) door een echt Formspree-id en bouw opnieuw.
-- Controleer telefoon/WhatsApp-nummers in `SITE` bovenin `_build/build.js` en in `assets/js/widget.js`.
+- Controleer het WhatsApp-nummer in `SITE` bovenin `_build/build.js` en in `assets/js/widget.js`.

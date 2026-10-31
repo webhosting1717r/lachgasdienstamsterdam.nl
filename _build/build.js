@@ -10,7 +10,7 @@ const OUT = path.resolve(__dirname, '..');
 const CSS = fs.readFileSync(path.join(OUT, 'assets/css/style.css'), 'utf8').replace(/\/\*[\s\S]*?\*\//g, '').replace(/\n\s*\n/g, '\n').trim();
 const TODAY = '2026-10-26';
 const CSS_V = '1';
-const JS_V = '2';
+const JS_V = '3';
 
 const SITE = {
   // Canonical host is www: Vercel serves production on www and 308-redirects the apex there.
@@ -18,16 +18,13 @@ const SITE = {
   name: 'Lachgas Dienst Amsterdam',
   alt: 'Lachgasdienst Amsterdam',
   tagline: 'Lachgas bezorgen in Amsterdam · 24/7 · binnen 20-30 min',
-  wa: '16474935191',
-  waDisplay: '+1 647 493 5191',
-  tel: '+31684695184',
-  telDisplay: '+31 6 84 69 51 84',
+  wa: '447441484380',
+  waDisplay: '+44 7441 484380',
   email: 'info@lachgasdienstamsterdam.nl',
   ogImage: '/assets/img/og-image.jpg',
 };
 const WA_TEXT = encodeURIComponent('Hoi, ik wil graag lachgas bestellen in Amsterdam.');
 const WA_URL = `https://wa.me/${SITE.wa}?text=${WA_TEXT}`;
-const TEL_URL = `tel:${SITE.tel}`;
 
 const PRODUCTS = [
   { slug: 'product/fastgas-2kg', name: 'Fastgas 2KG Wegwerp Tank', short: 'Fastgas 2KG', kg: 2, tanks: 1, balloons: 'circa 250', img: 'fastgas-2kg-tank', ext: 'png', w: 440, h: 440, cutout: true, badge: 'Meest besteld', sku: 'LDA-FASTGAS-2KG',
@@ -50,9 +47,6 @@ const stripArticle = (n) => n.replace(/^(de|het) /, '');
 function waBtn(label = 'Bestel via WhatsApp', cls = 'btn wa') {
   return `<a class="${cls}" href="${WA_URL}" target="_blank" rel="noopener"><img src="/assets/img/icon-whatsapp.svg" alt="" class="btn-icon" width="20" height="20">${label}</a>`;
 }
-function telBtn(label = `Bel ${SITE.telDisplay}`, cls = 'btn ghost') {
-  return `<a class="${cls}" href="${TEL_URL}"><img src="/assets/img/icon-call.svg" alt="" class="btn-icon" width="20" height="20">${label}</a>`;
-}
 
 const productSrcset = (p) => p.cutout ? `/assets/img/${p.img}-220.webp 220w, /assets/img/${p.img}.webp 440w` : `/assets/img/${p.img}-360.webp 360w, /assets/img/${p.img}-480.webp 480w, /assets/img/${p.img}.webp ${p.w}w`;
 function productImg(p, { cls = '', lazy = true, sizes = 220 } = {}) {
@@ -68,7 +62,7 @@ function productCards() {
 function steps(area) {
   const where = area ? ` in ${area}` : ' in Amsterdam';
   return `<ol class="steps">
-<li><strong>App of bel ons</strong><p>Stuur een WhatsApp naar <a href="${WA_URL}" target="_blank" rel="noopener">${SITE.waDisplay}</a> of bel <a href="${TEL_URL}">${SITE.telDisplay}</a> en geef uw adres${where} door.</p></li>
+<li><strong>Stuur ons een bericht</strong><p>Stuur een WhatsApp naar <a href="${WA_URL}" target="_blank" rel="noopener">${SITE.waDisplay}</a> en geef uw adres${where} door.</p></li>
 <li><strong>Kies uw formaat</strong><p>Fastgas Wegwerp Tank in <a href="/product/fastgas-2kg/">2KG</a>, <a href="/product/fastgas-4kg/">4KG</a> of <a href="/product/fastgas-10kg/">10KG</a>. Wij bevestigen direct de verwachte aankomsttijd.</p></li>
 <li><strong>Betaal bij aflevering</strong><p>Onze koerier staat gemiddeld binnen 20-30 minuten voor de deur. Betalen kan met PIN of contant. Legitimatie 18+ kan worden gevraagd.</p></li>
 </ol>`;
@@ -97,7 +91,6 @@ function hoursList() {
 function ctaStrip() {
   return `<div class="cta-strip"><div class="container">
 <a class="whatsapp" href="${WA_URL}" target="_blank" rel="noopener"><img src="/assets/img/icon-whatsapp.svg" alt="" class="btn-icon" width="20" height="20">WhatsApp bestellen</a>
-<a class="call" href="${TEL_URL}"><img src="/assets/img/icon-call.svg" alt="" class="btn-icon" width="20" height="20">Bel ${SITE.telDisplay}</a>
 <a href="/lachgas-tanks/">Bekijk de Fastgas tanks →</a>
 </div></div>`;
 }
@@ -116,8 +109,8 @@ const SAFETY_LIST = `<ul class="reasons">
 // ---------------------------------------------------------------- schema
 const BUSINESS = {
   '@type': ['LocalBusiness', 'Store'], '@id': abs('/#business'), name: SITE.name, alternateName: [SITE.alt, 'Lachgaskoerier Amsterdam'],
-  description: '24/7 lachgas bezorgdienst in Amsterdam en omstreken. Originele, verzegelde Fastgas Wegwerp Tanks (2KG, 4KG, 10KG) binnen 20-30 minuten bezorgd. Bestellen via WhatsApp of telefoon, betalen bij aflevering. Uitsluitend 18+.',
-  url: SITE.url + '/', image: abs(SITE.ogImage), logo: abs('/assets/img/logo.svg'), telephone: SITE.tel, email: SITE.email,
+  description: '24/7 lachgas bezorgdienst in Amsterdam en omstreken. Originele, verzegelde Fastgas Wegwerp Tanks (2KG, 4KG, 10KG) binnen 20-30 minuten bezorgd. Bestellen via WhatsApp, betalen bij aflevering. Uitsluitend 18+.',
+  url: SITE.url + '/', image: abs(SITE.ogImage), logo: abs('/assets/img/logo.svg'), telephone: '+' + SITE.wa, email: SITE.email,
   priceRange: '€€', currenciesAccepted: 'EUR', paymentAccepted: 'Cash, Debit Card, iDEAL',
   address: { '@type': 'PostalAddress', addressLocality: 'Amsterdam', addressRegion: 'Noord-Holland', addressCountry: 'NL' },
   geo: { '@type': 'GeoCoordinates', latitude: 52.3676, longitude: 4.9041 },
@@ -125,7 +118,6 @@ const BUSINESS = {
   openingHoursSpecification: [{ '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'], opens: '00:00', closes: '23:59' }],
   contactPoint: [
     { '@type': 'ContactPoint', contactType: 'sales', name: 'WhatsApp bestellen', telephone: '+' + SITE.wa, url: `https://wa.me/${SITE.wa}`, availableLanguage: ['nl', 'en'] },
-    { '@type': 'ContactPoint', contactType: 'customer service', telephone: SITE.tel, availableLanguage: ['nl', 'en'] },
   ],
   sameAs: [`https://wa.me/${SITE.wa}`],
   makesOffer: PRODUCTS.map((p) => ({ '@type': 'Offer', itemOffered: { '@type': 'Product', name: p.name, url: abs('/' + p.slug + '/') } })),
@@ -164,7 +156,7 @@ function footer(lang) {
 <div><h3>${SITE.name}</h3><p>${en ? 'Nitrous oxide delivery service for Amsterdam and the surrounding region. Sealed Fastgas disposable tanks, ordered via WhatsApp and delivered within 20-30 minutes, 24/7.' : 'Lachgas bezorgdienst voor Amsterdam en omstreken. Originele, verzegelde Fastgas Wegwerp Tanks, besteld via WhatsApp en binnen 20-30 minuten bezorgd, dag en nacht.'}</p><p><span class="age-badge">18+</span>${en ? 'We only deliver to adults aged 18 and over.' : 'Wij leveren uitsluitend aan volwassenen van 18 jaar en ouder.'}</p></div>
 <div><h3>Bestellen</h3><a href="/lachgas-bestellen-amsterdam/">Lachgas bestellen</a><a href="/lachgas-tanks/">Fastgas tanks</a><a href="/product/fastgas-2kg/">Fastgas 2KG</a><a href="/product/fastgas-4kg/">Fastgas 4KG</a><a href="/product/fastgas-10kg/">Fastgas 10KG</a><a href="/lachgas-prijzen-amsterdam/">Prijzen</a><a href="/horeca-en-evenementen/">Horeca &amp; evenementen</a></div>
 <div><h3>Bezorgen</h3><a href="/lachgas-amsterdam/">Lachgas Amsterdam</a><a href="/lachgas-bezorgen-amsterdam/">Lachgas bezorgen</a><a href="/lachgas-nachtbezorging-amsterdam/">&rsquo;s Nachts bestellen</a><a href="/bezorggebied/">Bezorggebied</a><a href="/lachgas-amsterdam-centrum/">Centrum</a><a href="/lachgas-amsterdam-zuid/">Zuid</a><a href="/lachgas-amstelveen/">Amstelveen</a></div>
-<div><h3>Info &amp; contact</h3><a href="${WA_URL}" target="_blank" rel="noopener"><img src="/assets/img/icon-whatsapp.svg" alt="" class="btn-icon" width="18" height="18">WhatsApp ${SITE.waDisplay}</a><a href="${TEL_URL}"><img src="/assets/img/icon-call.svg" alt="" class="btn-icon" width="18" height="18">Bel ${SITE.telDisplay}</a><a href="/wat-is-lachgas/">Wat is lachgas?</a><a href="/lachgas-veilig-gebruiken/">Veilig gebruik</a><a href="/veelgestelde-vragen/">Veelgestelde vragen</a><a href="/over-ons/">Over ons</a><a href="/contact/">Contact</a></div>
+<div><h3>Info &amp; contact</h3><a href="${WA_URL}" target="_blank" rel="noopener"><img src="/assets/img/icon-whatsapp.svg" alt="" class="btn-icon" width="18" height="18">WhatsApp ${SITE.waDisplay}</a><a href="/wat-is-lachgas/">Wat is lachgas?</a><a href="/lachgas-veilig-gebruiken/">Veilig gebruik</a><a href="/veelgestelde-vragen/">Veelgestelde vragen</a><a href="/over-ons/">Over ons</a><a href="/contact/">Contact</a></div>
 </div>
 <div class="container footer-bottom"><span>&copy; 2026 ${SITE.name} · Amsterdam</span><span><a href="/algemene-voorwaarden/">Algemene voorwaarden</a> · <a href="/privacy/">Privacy</a> · <a href="/nitrous-oxide-delivery-amsterdam/" hreflang="en">English</a></span></div>
 </footer>`;
@@ -172,7 +164,7 @@ function footer(lang) {
 
 function hero(p) {
   const crumbs = p.crumbs ? `<nav class="breadcrumbs" aria-label="Kruimelpad"><ol><li><a href="/">Home</a></li>${p.crumbs.map((c, i, arr) => i === arr.length - 1 ? `<li aria-current="page">${c.name}</li>` : `<li><a href="${c.item.replace(SITE.url, '')}">${c.name}</a></li>`).join('')}</ol></nav>` : '';
-  const text = `${crumbs}<p class="eyebrow">${p.eyebrow}</p><h1>${p.h1}</h1><p class="lead">${p.lead}</p>${p.heroActions !== false ? `<div class="hero-actions">${waBtn(p.lang === 'en' ? 'Order via WhatsApp' : 'Bestel via WhatsApp')}${telBtn(p.lang === 'en' ? 'Call ' + SITE.telDisplay : 'Bel ' + SITE.telDisplay)}</div>` : ''}${p.stats ? `<ul class="stat-row">${p.stats.map((s) => `<li>${s}</li>`).join('')}</ul>` : ''}`;
+  const text = `${crumbs}<p class="eyebrow">${p.eyebrow}</p><h1>${p.h1}</h1><p class="lead">${p.lead}</p>${p.heroActions !== false ? `<div class="hero-actions">${waBtn(p.lang === 'en' ? 'Order via WhatsApp' : 'Bestel via WhatsApp')}</div>` : ''}${p.stats ? `<ul class="stat-row">${p.stats.map((s) => `<li>${s}</li>`).join('')}</ul>` : ''}`;
   if (p.hero === 'photo') {
     return `<header class="hero hero-photo"><div class="hero-photo-media"><picture><source type="image/webp" srcset="/assets/img/fastgas-close-up-768.webp 768w, /assets/img/fastgas-close-up.webp 1100w" sizes="100vw"><img src="/assets/img/fastgas-close-up.jpg" alt="" width="1100" height="733" fetchpriority="high" decoding="sync"></picture></div><div class="container">${text}</div></header>`;
   }
@@ -196,6 +188,7 @@ function render(p) {
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="format-detection" content="telephone=no">
 <title>${esc(p.title)}</title>
 <meta name="description" content="${esc(p.desc)}">
 <meta name="robots" content="${p.noindex ? 'noindex,follow' : 'index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1'}">
@@ -242,10 +235,10 @@ ${fabMarkup(lang)}
 `;
 }
 
-// Floating contact widget, rendered in the HTML so it paints with the first frame (widget.js only wires the toggle).
+// Floating WhatsApp button, rendered in the HTML so it paints with the first frame (widget.js only builds it as a fallback).
 function fabMarkup(lang) {
   const en = lang === 'en';
-  return `<div class="contact-fab" id="contact-fab"><div class="fab-menu" id="fab-menu"><a class="fab-item wa" href="${WA_URL}" target="_blank" rel="noopener"><img class="fab-icon" src="/assets/img/icon-whatsapp.svg" alt="" width="22" height="22"><span>${en ? 'Order via WhatsApp' : 'WhatsApp bestellen'}</span></a><a class="fab-item call" href="${TEL_URL}"><img class="fab-icon" src="/assets/img/icon-call.svg" alt="" width="22" height="22"><span>${en ? 'Call us' : 'Bel direct'}</span></a></div><button class="fab-main" id="fab-toggle" type="button" aria-label="${en ? 'Show contact options' : 'Contactopties tonen'}" aria-expanded="false" aria-controls="fab-menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button></div>`;
+  return `<a class="contact-fab fab-single" id="contact-fab" href="${WA_URL}" target="_blank" rel="noopener" aria-label="${en ? 'Order via WhatsApp' : 'WhatsApp bestellen'}"><img class="fab-icon" src="/assets/img/icon-whatsapp.svg" alt="" width="60" height="60"></a>`;
 }
 
 // ---------------------------------------------------------------- shared copy blocks
@@ -254,7 +247,7 @@ const REASONS = `<ul class="reasons">
 <li>24 uur per dag, 7 dagen per week, ook feestdagen</li>
 <li>Uitsluitend originele, verzegelde Fastgas tanks</li>
 <li>Vaste prijzen, geen verborgen bezorgkosten</li>
-<li>Bestellen via WhatsApp of telefoon, geen account nodig</li>
+<li>Bestellen via WhatsApp, geen account nodig</li>
 <li>Betalen bij aflevering met PIN of contant</li>
 <li>Discrete koerier in neutrale kleding en auto</li>
 <li>Groot bezorggebied: Amsterdam, Amstelveen, Zaandam, Haarlem</li>
@@ -267,7 +260,7 @@ const PHOTO_GRID = `<div class="photo-grid">
 </div>`;
 
 const HOME_FAQ = [
-  { q: 'Hoe snel bezorgen jullie lachgas in Amsterdam?', a: 'Gemiddeld staat onze koerier binnen 20 tot 30 minuten voor de deur, overal binnen de ring en in de meeste wijken daarbuiten. Zodra u via WhatsApp of telefonisch bestelt, bevestigen we direct de verwachte aankomsttijd.' },
+  { q: 'Hoe snel bezorgen jullie lachgas in Amsterdam?', a: 'Gemiddeld staat onze koerier binnen 20 tot 30 minuten voor de deur, overal binnen de ring en in de meeste wijken daarbuiten. Zodra u via WhatsApp bestelt, bevestigen we direct de verwachte aankomsttijd.' },
   { q: 'Kan ik lachgas bestellen zonder vooraf te betalen?', a: 'Ja. U betaalt onze koerier bij aflevering, met PIN of contant. Vooraf betalen of een account aanmaken is niet nodig.' },
   { q: 'Bezorgen jullie ook ’s nachts en in het weekend?', a: 'Ja, wij zijn 24 uur per dag en 7 dagen per week bereikbaar, ook op feestdagen zoals Koningsdag, Kerst en Oud &amp; Nieuw. Lees meer over <a href="/lachgas-nachtbezorging-amsterdam/">lachgas ’s nachts bestellen</a>.' },
   { q: 'Welke lachgas tanks leveren jullie?', a: 'Wij leveren uitsluitend de originele Fastgas Wegwerp Tank: <a href="/product/fastgas-2kg/">2KG</a> (circa 250 ballonnen), <a href="/product/fastgas-4kg/">4KG</a> (circa 500 ballonnen) en <a href="/product/fastgas-10kg/">10KG</a> (circa 1250 ballonnen). Elke tank is verzegeld, gecertificeerd en direct klaar voor gebruik.' },
@@ -287,7 +280,7 @@ pages.push({
   hreflang: [['nl', '/'], ['en', '/nitrous-oxide-delivery-amsterdam/'], ['x-default', '/']],
   eyebrow: 'Lachgas bezorgdienst Amsterdam · 24/7',
   h1: 'Lachgas Amsterdam bestellen? Binnen 20-30 minuten bezorgd.',
-  lead: 'Lachgas Dienst Amsterdam bezorgt de originele Fastgas Wegwerp Tank dag en nacht in heel Amsterdam en de regio. Bestel via WhatsApp of bel ons, en betaal pas bij aflevering.',
+  lead: 'Lachgas Dienst Amsterdam bezorgt de originele Fastgas Wegwerp Tank dag en nacht in heel Amsterdam en de regio. Bestel via WhatsApp en betaal pas bij aflevering.',
   stats: ['Binnen 20-30 min bezorgd', '24/7 geopend', 'Betalen bij aflevering', 'Alleen 18+'],
   faq: HOME_FAQ, faqTitle: 'Vragen over lachgas bestellen in Amsterdam',
   body: `
@@ -311,7 +304,7 @@ ${PHOTO_GRID}
 <p class="eyebrow">Zo werkt het</p>
 <h2>Lachgas bestellen in Amsterdam in drie stappen</h2>
 ${steps()}
-<p>${waBtn()} &nbsp; ${telBtn('Bel ' + SITE.telDisplay, 'btn ghost dark')}</p>
+<p>${waBtn()}</p>
 </div></section>
 
 <section class="section dark"><div class="container">
@@ -352,7 +345,7 @@ pages.push({
   stats: ['Alle stadsdelen', 'Binnen 20-30 min', '24/7 bezorging', 'Fastgas origineel'],
   schema: [{ '@type': 'Service', '@id': abs('/lachgas-amsterdam/#service'), serviceType: 'Lachgas bezorgen', name: 'Lachgas bezorgen in Amsterdam', provider: { '@id': abs('/#business') }, areaServed: { '@type': 'City', name: 'Amsterdam' }, url: abs('/lachgas-amsterdam/'), offers: { '@type': 'Offer', availability: 'https://schema.org/InStock', priceCurrency: 'EUR', url: abs('/lachgas-amsterdam/') } }],
   faq: [
-    { q: 'Waar kan ik lachgas kopen in Amsterdam?', a: 'Bij Lachgas Dienst Amsterdam bestelt u lachgas via WhatsApp of telefoon en laat u het thuisbezorgen. Een winkel of afhaalpunt is niet nodig: onze koerier komt naar u toe, overal in Amsterdam, gemiddeld binnen 20-30 minuten.' },
+    { q: 'Waar kan ik lachgas kopen in Amsterdam?', a: 'Bij Lachgas Dienst Amsterdam bestelt u lachgas via WhatsApp en laat u het thuisbezorgen. Een winkel of afhaalpunt is niet nodig: onze koerier komt naar u toe, overal in Amsterdam, gemiddeld binnen 20-30 minuten.' },
     { q: 'Hoe laat kan ik lachgas bestellen in Amsterdam?', a: 'Altijd. Wij zijn 24 uur per dag en 7 dagen per week bereikbaar, ook ’s nachts, in het weekend en op feestdagen.' },
     { q: 'Wat is de beste lachgas tank voor een feestje?', a: 'Voor een feestje met 5 tot 15 personen is de Fastgas 2KG tank (circa 250 ballonnen) meestal voldoende. Voor grotere groepen raden we de 4KG aan, en voor evenementen en horeca de 10KG.' },
     { q: 'Is lachgas bezorgen in Amsterdam discreet?', a: 'Ja. Onze koeriers rijden in neutrale auto’s, dragen geen bedrijfskleding en leveren de tank in een neutrale tas af aan de deur.' },
@@ -361,7 +354,7 @@ pages.push({
   body: `
 <section class="section"><div class="container prose">
 <h2>Lachgas bestellen in Amsterdam: zo werkt het</h2>
-<p><strong>Lachgas Amsterdam</strong> is een van de meest gezochte termen in de stad, en niet zonder reden: Amsterdam is een feeststad en lachgas hoort voor veel mensen bij een avondje thuis met vrienden. Lachgas Dienst Amsterdam maakt het bestellen zo simpel mogelijk. U stuurt een WhatsApp-bericht naar <a href="${WA_URL}" target="_blank" rel="noopener">${SITE.waDisplay}</a> of belt <a href="${TEL_URL}">${SITE.telDisplay}</a>, geeft uw adres en het gewenste formaat door en wij bevestigen direct de aankomsttijd. Binnen de ring staat de koerier gemiddeld binnen 20 tot 30 minuten voor de deur.</p>
+<p><strong>Lachgas Amsterdam</strong> is een van de meest gezochte termen in de stad, en niet zonder reden: Amsterdam is een feeststad en lachgas hoort voor veel mensen bij een avondje thuis met vrienden. Lachgas Dienst Amsterdam maakt het bestellen zo simpel mogelijk. U stuurt een WhatsApp-bericht naar <a href="${WA_URL}" target="_blank" rel="noopener">${SITE.waDisplay}</a>, geeft uw adres en het gewenste formaat door en wij bevestigen direct de aankomsttijd. Binnen de ring staat de koerier gemiddeld binnen 20 tot 30 minuten voor de deur.</p>
 <p>Wij werken uitsluitend met de originele <a href="/lachgas-tanks/">Fastgas Wegwerp Tank</a>. Dat is een verzegelde, gecertificeerde tank van 2 kilo zuiver distikstofmonoxide (N₂O), leverbaar als losse tank (2KG), als set van twee (4KG) of als set van vijf (10KG). Elke tank wordt vóór vertrek nagewogen, zodat u nooit een halfvolle tank ontvangt.</p>
 ${steps()}
 </div></section>
@@ -462,10 +455,10 @@ pages.push({
   eyebrow: 'Zo bestelt u',
   h1: 'Lachgas bestellen in Amsterdam',
   lead: 'Geen webshop, geen account, geen vooruitbetaling. Eén bericht met uw adres en het gewenste formaat is genoeg; binnen 20-30 minuten staat de koerier voor de deur.',
-  stats: ['WhatsApp of telefoon', 'Geen account nodig', 'PIN of contant'],
+  stats: ['Bestellen via WhatsApp', 'Geen account nodig', 'PIN of contant'],
   faq: [
     { q: 'Wat moet ik in mijn WhatsApp-bericht zetten?', a: 'Uw straat, huisnummer en plaats, het gewenste formaat (2KG, 4KG of 10KG) en eventueel het tijdstip waarop u de tank wilt ontvangen. Wij antwoorden met de prijs en de verwachte aankomsttijd.' },
-    { q: 'Kan ik ook bellen om te bestellen?', a: 'Ja, bel ' + SITE.telDisplay + '. Telefonisch bestellen gaat net zo snel; we herhalen uw adres en formaat en bevestigen de aankomsttijd.' },
+    { q: 'Kan ik ook bellen om te bestellen?', a: 'Nee, bestellen gaat uitsluitend via WhatsApp: ' + SITE.waDisplay + '. Dat gaat net zo snel; we herhalen uw adres en formaat en bevestigen de aankomsttijd.' },
     { q: 'Kan ik iDEAL of een betaalverzoek gebruiken?', a: 'U betaalt bij aflevering met PIN of contant. Op verzoek kan de koerier ook een betaalverzoek (Tikkie/iDEAL) sturen dat u ter plekke voldoet.' },
     { q: 'Kan ik meerdere tanks bestellen?', a: 'Zeker. De 4KG bestaat uit twee tanks en de 10KG uit vijf tanks; grotere aantallen voor horeca of evenementen regelen we via onze zakelijke pagina.' },
     { q: 'Moet ik mij legitimeren?', a: 'Onze koerier kan bij aflevering om een geldig legitimatiebewijs vragen. Wij leveren uitsluitend aan personen van 18 jaar en ouder.' },
@@ -475,7 +468,7 @@ pages.push({
 <p class="eyebrow">In drie stappen</p>
 <h2>Zo bestelt u lachgas bij ons</h2>
 ${steps()}
-<p>${waBtn('Nu bestellen via WhatsApp')} &nbsp; ${telBtn('Bel ' + SITE.telDisplay, 'btn ghost dark')}</p>
+<p>${waBtn('Nu bestellen via WhatsApp')}</p>
 </div></section>
 <section class="section alt"><div class="container prose">
 <h2>Voorbeeldbericht</h2>
@@ -567,7 +560,7 @@ PRODUCTS.forEach((p, i) => {
 <div><p class="eyebrow" style="color:var(--mint)">Fastgas Wegwerp Tank</p><h2>${p.name}</h2><div class="price">Prijs op aanvraag<small>Vaste prijs incl. bezorging in Amsterdam · vraag de actuele prijs via WhatsApp</small></div>
 <ul><li>Inhoud: ${p.kg} kg zuiver N₂O (${p.tanks === 1 ? '1 tank van 2 kg' : p.tanks + ' tanks van 2 kg'})</li><li>Goed voor ${p.balloons} ballonnen</li><li>Verzegeld, gecertificeerd en nagewogen</li><li>Ventiel op de tank, geen cracker nodig</li><li>Geen statiegeld, geen retour</li><li>Levering uitsluitend aan 18+</li></ul>
 <div class="variant-row">${PRODUCTS.map((o) => `<a href="/${o.slug}/"${o === p ? ' class="active"' : ''}>${o.kg}KG</a>`).join('')}</div>
-<p>${waBtn()} ${telBtn()}</p></div>
+<p>${waBtn()}</p></div>
 </div>
 </div></section>
 <section class="section alt"><div class="container prose">
@@ -632,7 +625,7 @@ pages.push({
   stats: ['Ook na 00:00', 'Weekend & feestdagen', 'Geen nachttoeslag'],
   hero: 'photo',
   faq: [
-    { q: 'Tot hoe laat kan ik lachgas bestellen?', a: 'Altijd. Wij zijn 24 uur per dag bereikbaar via WhatsApp en telefoon. Ook om 03:00 of 05:00 ’s nachts rijden onze koeriers.' },
+    { q: 'Tot hoe laat kan ik lachgas bestellen?', a: 'Altijd. Wij zijn 24 uur per dag bereikbaar via WhatsApp. Ook om 03:00 of 05:00 ’s nachts rijden onze koeriers.' },
     { q: 'Is nachtbezorging duurder?', a: 'Nee. Wij rekenen geen nachttoeslag; de prijs is dag en nacht hetzelfde.' },
     { q: 'Hoe lang duurt bezorging ’s nachts?', a: 'Vaak zelfs sneller dan overdag, omdat de wegen leeg zijn: gemiddeld 20 tot 30 minuten in Amsterdam. Alleen op vrijdag- en zaterdagnacht tussen 00:00 en 03:00 kan het iets drukker zijn.' },
     { q: 'Bezorgen jullie op feestdagen?', a: 'Ja: Koningsdag, Oud &amp; Nieuw, Kerst, Pasen, Pinksteren en alle andere feestdagen. Houd er rekening mee dat het op Koningsnacht en Oudejaarsnacht erg druk is; bestel dan vooruit.' },
@@ -648,7 +641,7 @@ ${steps()}
 <h2>Veilig gebruik &rsquo;s nachts</h2>
 <p>Later op de avond is er vaak alcohol in het spel. Combineer lachgas nooit met alcohol of andere middelen, gebruik altijd zittend en via een ballon, en ga na gebruik niet de weg op. Lees onze <a href="/lachgas-veilig-gebruiken/">tips voor veilig gebruik</a>.</p>
 </div></section>
-<section class="section alt"><div class="container two-col"><div class="prose"><p class="eyebrow">Openingstijden</p><h2>Altijd open</h2><p>Doorlopend geopend, ook op feestdagen. Bel of app ons op elk moment van de dag of nacht.</p></div><div>${hoursList()}</div></div></section>`,
+<section class="section alt"><div class="container two-col"><div class="prose"><p class="eyebrow">Openingstijden</p><h2>Altijd open</h2><p>Doorlopend geopend, ook op feestdagen. Stuur ons op elk moment van de dag of nacht een WhatsApp.</p></div><div>${hoursList()}</div></div></section>`,
 });
 
 // bezorggebied
@@ -711,7 +704,7 @@ pages.push({
 <p>Clubs en bars rond het Rembrandtplein, het Leidseplein en de Wallen; festivals op het Westergasterrein en de NDSM-werf; partyboten op de grachten en het IJ; afterparty&rsquo;s, bedrijfsfeesten en bruiloften in en rond Amsterdam. Ook handelaren die zelf doorverkopen kunnen bij ons terecht voor grotere volumes.</p>
 <h2>Prijsopgave aanvragen</h2>
 <p>Stuur ons via WhatsApp uw bedrijfsnaam, de gewenste hoeveelheid en de leverfrequentie; u ontvangt binnen een uur een prijsvoorstel. Afhalen op afspraak in Amsterdam is ook mogelijk.</p>
-<p>${waBtn('Vraag zakelijke prijzen aan')} &nbsp; ${telBtn('Bel ' + SITE.telDisplay, 'btn ghost dark')}</p>
+<p>${waBtn('Vraag zakelijke prijzen aan')}</p>
 </div></section>
 <section class="section alt"><div class="container">${productCards()}</div></section>`,
 });
@@ -719,16 +712,15 @@ pages.push({
 // contact
 pages.push({
   path: '/contact/', navActive: '/contact/', crumbs: [{ name: 'Contact' }],
-  title: 'Contact – Lachgas Dienst Amsterdam | WhatsApp, telefoon & e-mail',
-  desc: 'Contact met Lachgas Dienst Amsterdam: bestel via WhatsApp ' + SITE.waDisplay + ', bel ' + SITE.telDisplay + ' of mail. 24 uur per dag bereikbaar.',
+  title: 'Contact – Lachgas Dienst Amsterdam | WhatsApp & e-mail',
+  desc: 'Contact met Lachgas Dienst Amsterdam: bestel via WhatsApp ' + SITE.waDisplay + ' of mail. 24 uur per dag bereikbaar.',
   eyebrow: 'Neem contact op', h1: 'Contact', hero: 'plain',
-  lead: 'Voor bestellingen gebruikt u het snelst WhatsApp of de telefoon. Voor overige vragen kunt u ook het contactformulier gebruiken; wij reageren per e-mail.',
+  lead: 'Voor bestellingen gebruikt u het snelst WhatsApp. Voor overige vragen kunt u ook het contactformulier gebruiken; wij reageren per e-mail.',
   schema: [{ '@type': 'ContactPage', '@id': abs('/contact/#contactpage'), url: abs('/contact/'), name: 'Contact Lachgas Dienst Amsterdam' }],
   body: `
 <section class="section"><div class="container">
 <ul class="contact-cards">
 <li><strong>WhatsApp (bestellen)</strong><a href="${WA_URL}" target="_blank" rel="noopener">${SITE.waDisplay}</a><br><span style="font-size:13px;color:var(--ink-dim)">24/7 · snelste manier om te bestellen</span></li>
-<li><strong>Telefoon</strong><a href="${TEL_URL}">${SITE.telDisplay}</a><br><span style="font-size:13px;color:var(--ink-dim)">24/7 · bestellen en vragen</span></li>
 <li><strong>E-mail</strong><a href="mailto:${SITE.email}">${SITE.email}</a><br><span style="font-size:13px;color:var(--ink-dim)">Zakelijke vragen en overige berichten</span></li>
 </ul>
 <div class="two-col">
@@ -740,7 +732,7 @@ pages.push({
 <div class="form-row"><label for="bericht">Bericht</label><textarea id="bericht" name="bericht" rows="5" required></textarea></div>
 <button class="btn" type="submit">Verstuur bericht</button>
 </form></div>
-<div class="prose"><h2>Bedrijfsgegevens</h2><p><strong>${SITE.name}</strong><br>Amsterdam, Noord-Holland<br>E-mail: <a href="mailto:${SITE.email}">${SITE.email}</a><br>Telefoon: <a href="${TEL_URL}">${SITE.telDisplay}</a><br>WhatsApp: <a href="${WA_URL}" target="_blank" rel="noopener">${SITE.waDisplay}</a></p><h3>Openingstijden</h3>${hoursList()}</div>
+<div class="prose"><h2>Bedrijfsgegevens</h2><p><strong>${SITE.name}</strong><br>Amsterdam, Noord-Holland<br>E-mail: <a href="mailto:${SITE.email}">${SITE.email}</a><br>WhatsApp: <a href="${WA_URL}" target="_blank" rel="noopener">${SITE.waDisplay}</a></p><h3>Openingstijden</h3>${hoursList()}</div>
 </div>
 </div></section>`,
 });
@@ -793,7 +785,7 @@ pages.push({
   title: 'Veelgestelde vragen – lachgas bestellen in Amsterdam',
   desc: 'Antwoord op alle vragen over lachgas bestellen in Amsterdam: bezorgtijd, prijzen, betalen, formaten, leeftijd, veiligheid en bewaren. Lachgas Dienst Amsterdam, 24/7.',
   eyebrow: 'FAQ', h1: 'Veelgestelde vragen', hero: 'plain',
-  lead: 'Alles wat u wilt weten over bestellen, bezorgen, betalen en veilig gebruiken. Staat uw vraag er niet bij? App of bel ons.',
+  lead: 'Alles wat u wilt weten over bestellen, bezorgen, betalen en veilig gebruiken. Staat uw vraag er niet bij? Stuur ons een WhatsApp.',
   faq: ALL_FAQ, faqTitle: 'Alle vragen en antwoorden',
   body: '',
 });
@@ -874,9 +866,9 @@ infoPages.forEach((ip) => {
 
 // area pages
 const AREA_VARIANTS = [
-  (a) => `Onze koeriers kennen ${a.spots.slice(0, 3).join(', ')} en de straten eromheen als hun broekzak en rijden dagelijks meerdere keren door ${cap(a.name)}. Bestellen gaat via WhatsApp of telefoon; wij bevestigen direct de verwachte aankomsttijd en u betaalt pas bij aflevering.`,
+  (a) => `Onze koeriers kennen ${a.spots.slice(0, 3).join(', ')} en de straten eromheen als hun broekzak en rijden dagelijks meerdere keren door ${cap(a.name)}. Bestellen gaat via WhatsApp; wij bevestigen direct de verwachte aankomsttijd en u betaalt pas bij aflevering.`,
   (a) => `Of u nu bij ${a.spots[0]} woont of aan de rand bij ${a.spots[a.spots.length - 1]}: binnen ${a.eta} minuten staat onze koerier voor de deur. Eén WhatsApp-bericht met uw adres en het gewenste formaat is genoeg, en u rekent af bij de deur met PIN of contant.`,
-  (a) => `Wij bezorgen in heel ${cap(a.name)}, van ${a.spots[0]} tot ${a.spots[1]} en alles daartussen. De gemiddelde bezorgtijd is ${a.eta} minuten, dag en nacht. Bestel via WhatsApp of bel ons; betalen doet u bij aflevering.`,
+  (a) => `Wij bezorgen in heel ${cap(a.name)}, van ${a.spots[0]} tot ${a.spots[1]} en alles daartussen. De gemiddelde bezorgtijd is ${a.eta} minuten, dag en nacht. Bestel via WhatsApp; betalen doet u bij aflevering.`,
 ];
 AREAS.forEach((a, idx) => {
   const name = cap(a.name);
@@ -906,7 +898,7 @@ AREAS.forEach((a, idx) => {
   pages.push({
     path, crumbs, title, desc,
     eyebrow: `Lachgas bezorgen ${inName}`, h1: `Lachgas ${plainName}`,
-    lead: `${a.type === 'plaats' ? 'Ook' : 'Snel en discreet'} ${inName} bezorgen wij de Fastgas Wegwerp Tank gemiddeld binnen ${a.eta} minuten, dag en nacht. Bestel via WhatsApp of telefoon en betaal bij aflevering.`,
+    lead: `${a.type === 'plaats' ? 'Ook' : 'Snel en discreet'} ${inName} bezorgen wij de Fastgas Wegwerp Tank gemiddeld binnen ${a.eta} minuten, dag en nacht. Bestel via WhatsApp en betaal bij aflevering.`,
     stats: [`Binnen ${a.eta} min`, '24/7 geopend', 'Betalen bij aflevering'],
     schema: [{ '@type': 'Service', '@id': abs(path + '#service'), serviceType: 'Lachgas bezorgen', name: `Lachgas bezorgen ${inName}`, description: desc, provider: { '@id': abs('/#business') }, areaServed: { '@type': a.type === 'plaats' ? 'City' : 'Place', name: plainName, containedInPlace: a.type !== 'plaats' ? { '@type': 'City', name: 'Amsterdam' } : undefined }, url: abs(path), hoursAvailable: { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'], opens: '00:00', closes: '23:59' }, offers: { '@type': 'Offer', availability: 'https://schema.org/InStock', priceCurrency: 'EUR', url: abs(path) } }],
     faq, faqTitle: `Vragen over lachgas bezorgen ${inName}`,
@@ -944,7 +936,7 @@ pages.push({
   faqTitle: 'Questions about laughing gas delivery in Amsterdam',
   faq: [
     { q: 'How fast is delivery in Amsterdam?', a: 'Most orders inside the A10 ring arrive within 20 to 30 minutes, day or night. Amstelveen, Diemen and Zaandam take about the same; Haarlem, Hoofddorp, Almere and Purmerend 30 to 45 minutes.' },
-    { q: 'How do I order?', a: 'Send a WhatsApp message to ' + SITE.waDisplay + ' with your address and the size you want (2KG, 4KG or 10KG), or call ' + SITE.telDisplay + '. We reply with the price and the estimated arrival time.' },
+    { q: 'How do I order?', a: 'Send a WhatsApp message to ' + SITE.waDisplay + ' with your address and the size you want (2KG, 4KG or 10KG). We reply with the price and the estimated arrival time.' },
     { q: 'How do I pay?', a: 'On delivery, by card (PIN) or cash. No account, no prepayment.' },
     { q: 'What exactly do you deliver?', a: 'Only the original Fastgas disposable tank: 2 kg of pure N₂O per tank, sealed and certified, with a built-in valve. The 4KG order contains two tanks, the 10KG order five. Roughly 250 balloons per tank.' },
     { q: 'Is there an age limit?', a: 'Yes. We only deliver to adults aged 18 and over and the courier may ask for ID. Nitrous oxide is a controlled substance in the Netherlands since 2023; never use it in traffic or in public spaces.' },
@@ -957,7 +949,7 @@ pages.push({
 <table><thead><tr><th>Size</th><th>Tanks</th><th>Content</th><th>Balloons</th></tr></thead><tbody><tr><td><a href="/product/fastgas-2kg/">Fastgas 2KG</a></td><td>1</td><td>2 kg N₂O</td><td>approx. 250</td></tr><tr><td><a href="/product/fastgas-4kg/">Fastgas 4KG</a></td><td>2</td><td>4 kg N₂O</td><td>approx. 500</td></tr><tr><td><a href="/product/fastgas-10kg/">Fastgas 10KG</a></td><td>5</td><td>10 kg N₂O</td><td>approx. 1250</td></tr></tbody></table>
 <p>Every tank is sealed and certified, weighed before it leaves us, and has its own valve, so no cracker is needed. There is no deposit: once empty, the tank goes in the regular waste.</p>
 <h2>How to order</h2>
-<ol class="steps"><li><strong>Message or call us</strong><p>WhatsApp <a href="${WA_URL}" target="_blank" rel="noopener">${SITE.waDisplay}</a> or call <a href="${TEL_URL}">${SITE.telDisplay}</a> with your address in Amsterdam.</p></li><li><strong>Pick a size</strong><p>2KG, 4KG or 10KG. We confirm the price and the expected arrival time right away.</p></li><li><strong>Pay on delivery</strong><p>The courier arrives within 20-30 minutes on average. Pay by card or cash; ID may be requested (18+).</p></li></ol>
+<ol class="steps"><li><strong>Message us</strong><p>WhatsApp <a href="${WA_URL}" target="_blank" rel="noopener">${SITE.waDisplay}</a> with your address in Amsterdam.</p></li><li><strong>Pick a size</strong><p>2KG, 4KG or 10KG. We confirm the price and the expected arrival time right away.</p></li><li><strong>Pay on delivery</strong><p>The courier arrives within 20-30 minutes on average. Pay by card or cash; ID may be requested (18+).</p></li></ol>
 <h2>Delivery area</h2>
 <p>All districts of Amsterdam: Centrum, Noord, Oost, West, Zuid, Zuidoost and Nieuw-West, plus Amstelveen, Diemen, Zaandam, Haarlem, Hoofddorp, Almere, Purmerend and more. See the full <a href="/bezorggebied/">delivery area</a> (Dutch).</p>
 <h2>Use responsibly</h2>
@@ -971,9 +963,9 @@ pages.push({
   title: 'Algemene voorwaarden – Lachgas Dienst Amsterdam', desc: 'Algemene voorwaarden van Lachgas Dienst Amsterdam: bestellen, levering, betaling, leeftijdscontrole, annulering en aansprakelijkheid.',
   eyebrow: 'Juridisch', h1: 'Algemene voorwaarden', lead: 'Deze voorwaarden gelden voor alle bestellingen bij Lachgas Dienst Amsterdam.',
   body: `<section class="section"><div class="container prose">
-<h2>1. Algemeen</h2><p>Deze voorwaarden zijn van toepassing op elke bestelling die via WhatsApp, telefoon of e-mail bij Lachgas Dienst Amsterdam (hierna: &ldquo;wij&rdquo;) wordt geplaatst. Door te bestellen gaat u akkoord met deze voorwaarden.</p>
+<h2>1. Algemeen</h2><p>Deze voorwaarden zijn van toepassing op elke bestelling die via WhatsApp of e-mail bij Lachgas Dienst Amsterdam (hierna: &ldquo;wij&rdquo;) wordt geplaatst. Door te bestellen gaat u akkoord met deze voorwaarden.</p>
 <h2>2. Leeftijd</h2><p>Wij leveren uitsluitend aan personen van 18 jaar en ouder. De koerier kan om een geldig legitimatiebewijs vragen en mag de levering weigeren als de leeftijd niet kan worden aangetoond of als de klant zichtbaar onder invloed is. Bij weigering zijn geen kosten verschuldigd.</p>
-<h2>3. Bestellen en bevestiging</h2><p>Een bestelling komt tot stand zodra wij de prijs en de verwachte aankomsttijd via WhatsApp of telefoon hebben bevestigd. Bezorgtijden zijn indicatief; wij spannen ons in om binnen de aangegeven tijd te leveren, maar kunnen hierover geen garantie geven.</p>
+<h2>3. Bestellen en bevestiging</h2><p>Een bestelling komt tot stand zodra wij de prijs en de verwachte aankomsttijd via WhatsApp hebben bevestigd. Bezorgtijden zijn indicatief; wij spannen ons in om binnen de aangegeven tijd te leveren, maar kunnen hierover geen garantie geven.</p>
 <h2>4. Prijzen en betaling</h2><p>Prijzen zijn inclusief btw en, binnen Amsterdam, inclusief bezorging. Eventuele toeslagen voor adressen buiten Amsterdam worden vooraf gemeld. Betaling vindt plaats bij aflevering, per PIN, contant of via een betaalverzoek.</p>
 <h2>5. Annulering</h2><p>U kunt een bestelling kosteloos annuleren totdat de koerier is vertrokken. Daarna kunnen wij redelijke kosten in rekening brengen.</p>
 <h2>6. Product en gebruik</h2><p>Wij leveren uitsluitend originele, verzegelde Fastgas Wegwerp Tanks. Controleer het zegel bij aflevering. Het product is bedoeld voor gebruik door volwassenen op privélocaties; de klant is zelf verantwoordelijk voor naleving van de geldende wet- en regelgeving en voor verantwoord gebruik volgens de instructies op deze website.</p>
@@ -990,7 +982,7 @@ pages.push({
   body: `<section class="section"><div class="container prose">
 <h2>Welke gegevens verwerken wij?</h2><p>Bij een bestelling verwerken wij uw naam (indien opgegeven), telefoonnummer of WhatsApp-nummer, bezorgadres en de inhoud van uw bestelling. Via het contactformulier verwerken wij uw naam, e-mailadres, eventueel telefoonnummer en uw bericht.</p>
 <h2>Waarvoor gebruiken wij deze gegevens?</h2><p>Uitsluitend om uw bestelling te bezorgen, contact met u op te nemen over de levering en uw vragen te beantwoorden. Wij gebruiken uw gegevens niet voor marketing en verkopen ze nooit aan derden.</p>
-<h2>Bewaartermijn</h2><p>Bestelgegevens in WhatsApp en telefoon worden uiterlijk 30 dagen na levering verwijderd. Berichten via het contactformulier bewaren wij zolang nodig om uw vraag af te handelen, met een maximum van 12 maanden.</p>
+<h2>Bewaartermijn</h2><p>Bestelgegevens in WhatsApp worden uiterlijk 30 dagen na levering verwijderd. Berichten via het contactformulier bewaren wij zolang nodig om uw vraag af te handelen, met een maximum van 12 maanden.</p>
 <h2>Derden</h2><p>WhatsApp (Meta Platforms) verwerkt berichten volgens zijn eigen privacybeleid. Het contactformulier wordt verwerkt door Formspree. Deze website wordt gehost in de EU. Wij delen geen gegevens met andere partijen, tenzij wettelijk verplicht.</p>
 <h2>Cookies</h2><p>Deze website plaatst geen tracking- of advertentiecookies en gebruikt geen analytics van derden. Alleen technisch noodzakelijke functies (zoals het onthouden van een geopend menu) worden lokaal in uw browser uitgevoerd.</p>
 <h2>Uw rechten</h2><p>U heeft recht op inzage, correctie en verwijdering van uw gegevens. Stuur een verzoek naar <a href="mailto:${SITE.email}">${SITE.email}</a>; wij reageren binnen vier weken. U kunt ook een klacht indienen bij de Autoriteit Persoonsgegevens.</p>
@@ -1012,7 +1004,7 @@ pages.forEach((p) => {
 
 // 404
 writeFile('404.html', `<!doctype html>
-<html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Pagina niet gevonden – ${SITE.name}</title><meta name="description" content="Deze pagina bestaat niet. Ga terug naar de homepage van Lachgas Dienst Amsterdam of bestel direct via WhatsApp."><meta name="robots" content="noindex"><meta name="theme-color" content="#0a1428"><link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg"><style>${CSS}</style></head>
+<html lang="nl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><title>Pagina niet gevonden – ${SITE.name}</title><meta name="description" content="Deze pagina bestaat niet. Ga terug naar de homepage van Lachgas Dienst Amsterdam of bestel direct via WhatsApp."><meta name="robots" content="noindex"><meta name="theme-color" content="#0a1428"><link rel="icon" type="image/svg+xml" href="/assets/img/favicon.svg"><style>${CSS}</style></head>
 <body>${header('')}<main id="main"><header class="hero"><div class="container"><p class="eyebrow">Fout 404</p><h1>Pagina niet gevonden</h1><p class="lead">Deze pagina bestaat niet (meer). Onze koerier rijdt gewoon door; kies hieronder waar u heen wilt.</p></div></header>
 <section class="section"><div class="container prose"><h2>Verder op ${SITE.name}</h2><div class="city-grid"><a href="/">Homepage</a><a href="/lachgas-amsterdam/">Lachgas Amsterdam</a><a href="/lachgas-tanks/">Fastgas tanks</a><a href="/lachgas-bestellen-amsterdam/">Bestellen</a><a href="/bezorggebied/">Bezorggebied</a><a href="/lachgas-prijzen-amsterdam/">Prijzen</a><a href="/contact/">Contact</a></div></div></section>${ctaStrip()}</main>${footer('nl')}${fabMarkup('nl')}<script src="/assets/js/widget.js?v=${JS_V}" defer></script></body></html>
 `);
@@ -1039,7 +1031,7 @@ Sitemap: ${SITE.url}/sitemap.xml
 
 writeFile('llms.txt', `# ${SITE.name}
 
-> 24/7 lachgas bezorgdienst in Amsterdam en omstreken. Originele, verzegelde Fastgas Wegwerp Tanks (2KG, 4KG, 10KG) binnen 20-30 minuten bezorgd. Bestellen via WhatsApp (${SITE.waDisplay}) of telefoon (${SITE.telDisplay}), betalen bij aflevering. Uitsluitend 18+.
+> 24/7 lachgas bezorgdienst in Amsterdam en omstreken. Originele, verzegelde Fastgas Wegwerp Tanks (2KG, 4KG, 10KG) binnen 20-30 minuten bezorgd. Bestellen via WhatsApp (${SITE.waDisplay}), betalen bij aflevering. Uitsluitend 18+.
 
 ## Belangrijkste pagina's
 - [Lachgas Amsterdam](${SITE.url}/lachgas-amsterdam/): hoofdpagina over lachgas kopen en bezorgen in Amsterdam

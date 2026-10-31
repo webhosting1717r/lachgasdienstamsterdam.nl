@@ -1,10 +1,8 @@
-/* Lachgas Dienst Amsterdam — shared behaviour: floating WhatsApp/call widget,
+/* Lachgas Dienst Amsterdam — shared behaviour: floating WhatsApp button,
    mobile nav toggle, header elevation, deferred font swap, contact form. */
 (function () {
-  var WHATSAPP_NUMBER = '16474935191';
-  var PHONE_NUMBER = '+31684695184';
+  var WHATSAPP_NUMBER = '447441484380';
   var WHATSAPP_TEXT = encodeURIComponent('Hoi, ik wil graag lachgas bestellen in Amsterdam.');
-  var SVG_NS = 'http://www.w3.org/2000/svg';
 
   function el(tag, attrs) {
     var node = document.createElement(tag);
@@ -12,53 +10,16 @@
     return node;
   }
 
-  function fabItem(href, cls, iconSrc, label, target) {
-    var a = el('a', { class: 'fab-item ' + cls, href: href });
-    if (target) { a.setAttribute('target', target); a.setAttribute('rel', 'noopener'); }
-    a.appendChild(el('img', { class: 'fab-icon', src: iconSrc, alt: '', width: '22', height: '22' }));
-    var span = document.createElement('span');
-    span.textContent = label;
-    a.appendChild(span);
-    return a;
-  }
-
-  function plusIcon() {
-    var svg = document.createElementNS(SVG_NS, 'svg');
-    svg.setAttribute('viewBox', '0 0 24 24');
-    svg.setAttribute('fill', 'none');
-    svg.setAttribute('stroke', 'currentColor');
-    svg.setAttribute('stroke-width', '2.5');
-    svg.setAttribute('stroke-linecap', 'round');
-    svg.setAttribute('aria-hidden', 'true');
-    var path = document.createElementNS(SVG_NS, 'path');
-    path.setAttribute('d', 'M12 5v14M5 12h14');
-    svg.appendChild(path);
-    return svg;
-  }
-
   function injectFab() {
-    // The widget is normally already in the HTML (painted with the first frame); build it only as a fallback.
-    var wrap = document.getElementById('contact-fab');
-    var toggle = wrap && document.getElementById('fab-toggle');
-    if (!wrap || !toggle) {
-      wrap = el('div', { class: 'contact-fab', id: 'contact-fab' });
-      var menu = el('div', { class: 'fab-menu' });
-      menu.appendChild(fabItem('https://wa.me/' + WHATSAPP_NUMBER + '?text=' + WHATSAPP_TEXT, 'wa', '/assets/img/icon-whatsapp.svg', 'WhatsApp bestellen', '_blank'));
-      menu.appendChild(fabItem('tel:' + PHONE_NUMBER, 'call', '/assets/img/icon-call.svg', 'Bel direct'));
-      wrap.appendChild(menu);
-      toggle = el('button', { class: 'fab-main', id: 'fab-toggle', type: 'button', 'aria-label': 'Contactopties tonen', 'aria-expanded': 'false' });
-      toggle.appendChild(plusIcon());
-      wrap.appendChild(toggle);
-      document.body.appendChild(wrap);
-    }
-    toggle.addEventListener('click', function () {
-      var open = wrap.classList.toggle('open');
-      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-      toggle.setAttribute('aria-label', open ? 'Contactopties verbergen' : 'Contactopties tonen');
+    // The button is normally already in the HTML (painted with the first frame); build it only as a fallback.
+    if (document.getElementById('contact-fab')) return;
+    var a = el('a', {
+      class: 'contact-fab fab-single', id: 'contact-fab',
+      href: 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + WHATSAPP_TEXT,
+      target: '_blank', rel: 'noopener', 'aria-label': 'WhatsApp bestellen'
     });
-    document.addEventListener('click', function (e) {
-      if (!wrap.contains(e.target)) { wrap.classList.remove('open'); toggle.setAttribute('aria-expanded', 'false'); }
-    });
+    a.appendChild(el('img', { class: 'fab-icon', src: '/assets/img/icon-whatsapp.svg', alt: '', width: '60', height: '60' }));
+    document.body.appendChild(a);
   }
 
   function wireNavToggle() {
