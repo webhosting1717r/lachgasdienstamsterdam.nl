@@ -1,27 +1,6 @@
-/* Lachgas Dienst Amsterdam — shared behaviour: floating WhatsApp button,
-   mobile nav toggle, header elevation, deferred font swap, contact form. */
+/* Lachgas Dienst Amsterdam — shared behaviour: mobile nav toggle,
+   header elevation, deferred font swap, contact form. */
 (function () {
-  var WHATSAPP_NUMBER = '447441484380';
-  var WHATSAPP_TEXT = encodeURIComponent('Hoi, ik wil graag lachgas bestellen in Amsterdam.');
-
-  function el(tag, attrs) {
-    var node = document.createElement(tag);
-    for (var k in attrs) node.setAttribute(k, attrs[k]);
-    return node;
-  }
-
-  function injectFab() {
-    // The button is normally already in the HTML (painted with the first frame); build it only as a fallback.
-    if (document.getElementById('contact-fab')) return;
-    var a = el('a', {
-      class: 'contact-fab fab-single', id: 'contact-fab',
-      href: 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + WHATSAPP_TEXT,
-      target: '_blank', rel: 'noopener', 'aria-label': 'WhatsApp bestellen'
-    });
-    a.appendChild(el('img', { class: 'fab-icon', src: '/assets/img/icon-whatsapp.svg', alt: '', width: '60', height: '60' }));
-    document.body.appendChild(a);
-  }
-
   function wireNavToggle() {
     var btn = document.getElementById('nav-toggle');
     var nav = document.getElementById('main-nav');
@@ -61,9 +40,9 @@
       fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } })
         .then(function (r) {
           if (r.ok) { form.reset(); status.textContent = 'Bedankt! Uw bericht is verstuurd. We reageren zo snel mogelijk.'; status.className = 'form-status success'; }
-          else { status.textContent = 'Versturen mislukt. Probeer het opnieuw of stuur ons een WhatsApp.'; status.className = 'form-status error'; }
+          else { status.textContent = 'Versturen mislukt. Probeer het opnieuw of stuur ons een e-mail.'; status.className = 'form-status error'; }
         })
-        .catch(function () { status.textContent = 'Versturen mislukt. Probeer het opnieuw of stuur ons een WhatsApp.'; status.className = 'form-status error'; });
+        .catch(function () { status.textContent = 'Versturen mislukt. Probeer het opnieuw of stuur ons een e-mail.'; status.className = 'form-status error'; });
     });
   }
 
@@ -73,7 +52,6 @@
     swapDeferredStyles();
     wireNavToggle();
     wireContactForm();
-    injectFab();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();

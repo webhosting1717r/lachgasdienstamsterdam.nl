@@ -8,7 +8,7 @@ Statische website voor de zoekterm **lachgas amsterdam**. De map is direct deplo
 |---|---|
 | `index.html`, `*/index.html` | 65 gegenereerde pagina's (home, Lachgas Amsterdam, producten, info, 40 gebiedspagina's, Engels, juridisch) |
 | `assets/img/` | Foto's (Fastgas tanks) in JPG/PNG + WebP-varianten, logo, favicon, OG-afbeelding |
-| `assets/js/widget.js` | Mobiel menu, contactwidget, contactformulier |
+| `assets/js/widget.js` | Mobiel menu, contactformulier |
 | `assets/css/style.css` | Bron-CSS; wordt bij het bouwen in elke pagina ge-inlined |
 | `_build/build.js` | Generator: alle teksten, schema.org, sitemap, robots, .htaccess |
 | `_build/areas.js` | Data van de 40 bezorggebieden (stadsdelen, buurten, regio) |
@@ -43,4 +43,4 @@ Het canonical-domein is **www** (`https://www.lachgasdienstamsterdam.nl`); de ap
 ## Nog te doen voor livegang
 
 - Vervang `your-form-id` in `_build/build.js` (contactformulier) door een echt Formspree-id en bouw opnieuw.
-- Controleer het WhatsApp-nummer in `SITE` bovenin `_build/build.js` en in `assets/js/widget.js`.
+- De site toont bewust geen telefoon- of WhatsApp-nummer; contact loopt via het formulier en e-mail.
